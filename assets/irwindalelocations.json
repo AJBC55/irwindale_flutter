@@ -1,0 +1,54 @@
+[
+    {
+        "name": "Entrance",
+        "lat": -117.98556,
+        "lon": 34.11049,
+        "description": "Entrance to the speedway"
+        
+    },
+    {
+        "name": "Ticket Office",
+        "lat": -117.98608,
+        "lon": 34.10891,
+        "description": "Ticket Sales"
+    },
+    {
+        "name": "Iwindale Dragstrip",
+        "lat" : -117.98324,
+        "lon" : 34.10697,
+        "description": "Los Angeles's premier drag strip"
+    },
+    {
+        "name": "Irwindale Speedway",
+        "lat" : -117.98781,
+        "lon" : 34.11015,
+        "description" : "Fastest short track on the west."
+    },
+    {
+        "name" : "Consessions",
+        "lat": -117.98758,
+        "lon" : 34.11078,
+        "description": "Food"
+    },
+    {
+        "name" : "Pit Area",
+        "lat" : -117.98809,
+        "lon" : 34.11130,
+        "description": "Car pit area (need pit pass to enter)"
+
+
+    },
+    {
+        "name" : "Parking Lot",
+        "lat" : -117.98385,
+        "lon" : 34.10880,
+        "description": "parking"
+    },
+    {
+        "name" : "Burnout Box",
+        "lat" :  -117.98548,
+        "lon" : 34.10894,
+        "description" : "Burnout box"
+    }
+
+]
