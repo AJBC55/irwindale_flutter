@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'maps.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
           body: TabBarView(
             children: [
               Center(child: Text('Display Events')),
-              Center(child: Text('Display Map')),
+              MapView(),
               Center(child: Text('Display Settings')),
             ],
           ),
