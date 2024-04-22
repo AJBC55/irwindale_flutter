@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'maps.dart';
+import 'login.dart';
+import 'auth.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,9 +19,9 @@ class MyApp extends StatelessWidget {
         child: Scaffold(
           body: TabBarView(
             children: [
-              Center(child: Text('Display Events')),
+              EventsScreen(),
               MapView(),
-              Center(child: Text('Display Settings')),
+              LoginView(),
             ],
           ),
           bottomNavigationBar: Material(
