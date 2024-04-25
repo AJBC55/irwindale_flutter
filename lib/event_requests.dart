@@ -4,7 +4,7 @@ import 'auth.dart';
 
 class EventsRequests {
   final String geteventsUrl =
-      "https://track-andrew-b967c8424989.herokuapp.com/events";
+      "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/events";
 
   Future<List<Event>?> geteventsData({String search = "", int skip = 0}) async {
     String queryParams = "?search=$search&skip=$skip";
