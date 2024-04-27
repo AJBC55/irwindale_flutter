@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:irwindale_flutter/data_models.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'event_requests.dart';
+import 'request.dart';
 
 // Event class definition
 
@@ -23,7 +23,7 @@ class _EventsScreenState extends State<EventsScreen> {
 
   Future<void> fetchEvents() async {
     try {
-      final eventsRequests = EventsRequests();
+      final eventsRequests = Requests();
       final response = await eventsRequests.geteventsData(); // Fetch data
 
       setState(() {

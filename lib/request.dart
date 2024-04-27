@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:irwindale_flutter/data_models.dart';
 
 
-class EventsRequests {
+class Requests {
   final String geteventsUrl = "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/events";
   final String userUrl =  "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/users";
   Future<List<Event>?> geteventsData({String search = "", int skip = 0}) async {
@@ -68,6 +68,9 @@ class EventsRequests {
       rethrow; // Return null or rethrow the exception depending on your preference
     }
   }
+
+
+
 }
 
 
