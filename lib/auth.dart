@@ -1,42 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:irwindale_flutter/data_models.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'event_requests.dart';
 
 // Event class definition
-class Event {
-  final int id;
-  final String name;
-  final String description;
-  final List<dynamic> time;
-  final String img_link;
-  final Uri ticket_link;
-  final String event_start;
-  final bool is_saved;
 
-  Event({
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.time,
-    required this.img_link,
-    required this.ticket_link,
-    required this.event_start,
-    required this.is_saved,
-  });
-
-  factory Event.fromJson(Map<String, dynamic> json) {
-    return Event(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      time: json['time'] ?? [],
-      img_link: json['img_link'] ?? '',
-      ticket_link: Uri.tryParse(json['ticket_link']) ?? Uri(),
-      event_start: json['event_start'].split("T")[0] ?? '',
-      is_saved: json['is_saved'] ?? false,
-    );
-  }
-}
 
 class EventsScreen extends StatefulWidget {
   @override
