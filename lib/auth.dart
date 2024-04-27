@@ -84,7 +84,7 @@ class _EventsScreenState extends State<EventsScreen> {
       return Scaffold(
         body: Center(child: CircularProgressIndicator()), // Spinner while loading
       );
-    }
+    }  
     return Scaffold(
       body: events != null && events!.isNotEmpty
           ? ListView.builder(
