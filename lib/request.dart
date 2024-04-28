@@ -102,12 +102,4 @@ class Requests {
     }
 
   }
-
-  Future <List<Event>?> getsavedEvents(String username, String password){
-    
-  }
-
-
 }
-
-
