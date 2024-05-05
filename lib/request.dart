@@ -3,19 +3,25 @@ import 'package:flutter_keychain/flutter_keychain.dart';
 import 'package:http/http.dart' as http;
 import 'package:irwindale_flutter/data_models.dart';
 
+// add a banner that says please log in, set jwt token to empty string, and set value to no
 
 class Requests {
-  final String geteventsUrl = "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/events";
-  final String userUrl =  "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/users";
-  final String loginUrl =  "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/login";
+  final String geteventsUrl =
+      "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/events";
+  final String userUrl =
+      "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/users";
+  final String loginUrl =
+      "https://css-backend-v1-92fa8dcd9de6.herokuapp.com/irwindale/login";
+
   Future<List<Event>?> geteventsData({String search = "", int skip = 0}) async {
     String queryParams = "?search=$search&skip=$skip";
     try {
       Uri url = Uri.parse(geteventsUrl + queryParams);
       var response = await http.get(url);
-
       if (response.statusCode == 200) {
-        var data = json.decode(response.body);
+        var jsonString = response.body.replaceAll("'", "\\'");
+        jsonString.replaceAll("–", "\\–"); // fixing json to add escape characters before special characters
+        var data = jsonDecode(jsonString);
         if (data is List) {
           return data.map((e) => Event.fromJson(e)).toList();
         } else {
@@ -31,7 +37,6 @@ class Requests {
       return null;
     }
   }
-
 
   Future<UserOut?> createUser(UserIn user_data, String userUrl) async {
     try {
@@ -55,15 +60,16 @@ class Requests {
         },
         body: jsonEncode(jsonBody), // Encode the body to JSON
       );
-      if (response.statusCode == 409){
+      if (response.statusCode == 409) {
         throw "USERNAME OR EMAIL ALREADY IN USE";
       }
       // Check if the user was created successfully
-      if (response.statusCode == 201) { // Status code 201 indicates successful creation
+      if (response.statusCode == 201) {
+        // Status code 201 indicates successful creation
         var data = jsonDecode(response.body); // Decode the response body
-        return UserOut.fromJson(data); // Return UserOut object from the decoded JSON
+        return UserOut.fromJson(
+            data); // Return UserOut object from the decoded JSON
       } else {
-      
         print("Error creating user. Status code: ${response.statusCode}");
         throw "Could not create user"; // Return null or throw an exception if preferred
       }
@@ -78,36 +84,30 @@ class Requests {
     try {
       Uri url = Uri.parse(loginUrl);
       Map<String, String> formBody = {
-      'username': username,
-      'password': password,
-    };
+        'username': username,
+        'password': password,
+      };
 
-      var response = await http.post(
-        url,
-        headers:{
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: formBody );
-      if (response.statusCode == 401){
+      var response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: formBody);
+      if (response.statusCode == 401) {
         throw "UNAUTHORIZED";
-      } else if (response.statusCode != 200){
+      } else if (response.statusCode != 200) {
         throw "ERROR authenticating  USER";
-        }
+      }
       var data = jsonDecode(response.body);
       var jsonData = TokenData.fromJson(data);
       await FlutterKeychain.put(key: "jwt_token", value: jsonData.jwt_token);
-      await FlutterKeychain.put(key:"authenticated", value: "yes");
+      await FlutterKeychain.put(key: "authenticated", value: "yes");
     } catch (err) {
-      rethrow; 
+      rethrow;
     }
-
   }
 
-  Future <List<Event>?> getsavedEvents(String username, String password){
-    
-  }
+  //Future <List<Event>?> getsavedEvents(String username, String password){
 
-
+  //}
 }
-
-
