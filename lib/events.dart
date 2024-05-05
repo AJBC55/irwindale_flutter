@@ -91,7 +91,7 @@ class _EventsScreenState extends State<EventsScreen> {
                 };
 
                 String monthName = monthMap[month]!;
-                String eventStart = monthName + " " + day + ", " + year;
+                String eventStart = '$monthName $day, $year';
 
                 List<Widget> timeWidgets = event.time.map((t) {
                   List<String> splitText =
@@ -99,8 +99,7 @@ class _EventsScreenState extends State<EventsScreen> {
                   return Row(
                     children: [
                       Text(
-                        splitText[0].trim() +
-                            ': ', // First part of split text (before ":")
+                        ' ${splitText[0].trim()}: ',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight:
@@ -109,8 +108,7 @@ class _EventsScreenState extends State<EventsScreen> {
                       ),
                       // Text after ":"
                       Text(
-                        splitText[1].trim() +
-                            ":00 PM", // Second part of split text (after ":")
+                        '${splitText[1].trim()}:00 PM',
                         style: const TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight
@@ -210,7 +208,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                               Colors.white, // Text color
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(5),
+                                                BorderRadius.circular(0),
                                           ),
                                         ),
                                       ),
@@ -248,7 +246,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                   255, 0, 0, 0), // Button color
                               foregroundColor: Colors.white, // Text color
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(0),
                               ),
                             ),
                           ),
