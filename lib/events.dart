@@ -32,7 +32,7 @@ class _EventsScreenState extends State<EventsScreen> {
     });
   }
 
-  Future<void> fetchEvents({String search = ""}) async {
+  Future<void> fetchEvents({String search = "", int skip = 0}) async {
     try {
       final eventsRequests = Requests();
       final response =
@@ -146,7 +146,7 @@ class _EventsScreenState extends State<EventsScreen> {
                           width: 2 // Border width
                           ),
                       color: Colors.grey[200], // Light grey background
-                      borderRadius: BorderRadius.circular(0), // Rounded corners
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,16 +158,14 @@ class _EventsScreenState extends State<EventsScreen> {
                               right: 0,
                               bottom: 10), // Padding around the image
                           child: ClipRRect(
-                            borderRadius: BorderRadius.circular(
-                                0), // Matching rounded corners
+                            borderRadius: BorderRadius.circular(10), // Matching rounded corners
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Colors.grey[200]!, // Border for the image
                                   width: 5.0,
                                 ),
-                                borderRadius: BorderRadius.circular(
-                                    0), // Matching rounded corners
+                                borderRadius: BorderRadius.circular(10), // Matching rounded corners
                               ),
                               child: Image.network(
                                 event.img_link,
@@ -239,7 +237,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                                 Colors.white, // Text color
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(0),
+                                                  BorderRadius.circular(10),
                                             ),
                                           ),
                                         ),
@@ -278,7 +276,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                             foregroundColor: Colors.white,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(0),
+                                                  BorderRadius.circular(10),
                                             ),
                                           ),
                                         ),
@@ -317,7 +315,7 @@ class _EventsScreenState extends State<EventsScreen> {
                                     255, 0, 0, 0), // Button color
                                 foregroundColor: Colors.white, // Text color
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(0),
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                             ),
@@ -333,6 +331,7 @@ class _EventsScreenState extends State<EventsScreen> {
                     Text("No events found"), // Display if no data is available
               ),
       ),
+      
     );
   }
 }
