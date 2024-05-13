@@ -19,9 +19,7 @@ class Requests {
       Uri url = Uri.parse(geteventsUrl + queryParams);
       var response = await http.get(url);
       if (response.statusCode == 200) {
-        var jsonString = response.body.replaceAll('\'', '\\\'');
-        jsonString.replaceAll('–', '\\\–'); // fixing json to add escape characters before special characters
-        var data = jsonDecode(jsonString);
+        var data = jsonDecode(response.body);
         if (data is List) {
           return data.map((e) => Event.fromJson(e)).toList();
         } else {
