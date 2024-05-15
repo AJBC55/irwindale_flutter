@@ -3,34 +3,43 @@ import 'maps.dart';
 import 'login.dart';
 import 'events.dart';
 import 'register.dart';
+import 'loading_screen.dart'; // Import the LoadingScreen
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: DefaultTabController(
-        length: 2, // Number of tabs
-        child: Scaffold(
-          body: TabBarView(
-            children: [
-              EventsScreen(),
-              MapView(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => LoadingScreen(), // Initial route
+        '/home': (context) => HomeScreen(), // Home route
+      },
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2, // Number of tabs
+      child: Scaffold(
+        body: TabBarView(
+          children: [
+            EventsScreen(),
+            MapView(),
+          ],
+        ),
+        bottomNavigationBar: Material(
+          child: TabBar(
+            tabs: [
+              Tab(icon: Icon(Icons.list), text: 'Events'),
+              Tab(icon: Icon(Icons.map_outlined), text: 'Map'),
             ],
-          ),
-          bottomNavigationBar: Material(
-            child: TabBar(
-              tabs: [
-                Tab(icon: Icon(Icons.list), text: 'Events'),
-                Tab(icon: Icon(Icons.map_outlined), text: 'Map'),
-              ],
-            ),
           ),
         ),
       ),
