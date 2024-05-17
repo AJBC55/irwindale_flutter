@@ -152,6 +152,7 @@ class _MapViewState extends State<MapView> {
                 color: const Color.fromARGB(255, 0, 0, 0),
                 tooltip: 'Reset Zoom'),
           ),
+          
         ],
       ),
     );
