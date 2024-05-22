@@ -69,16 +69,27 @@ class _EventsScreenState extends State<EventsScreen> {
     }
     return Scaffold(
       appBar: AppBar(
-        title: TextField(
-          onChanged: (value) {
-            setState(() {
-              String search = value; // Update the search value
-              fetchEvents(search: search);
-            });
-          },
-          decoration: const InputDecoration(
-            hintText: 'Search events...',
-          ),
+        title: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    String search = value; 
+                    fetchEvents(search: search);
+                  });
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Search events...',
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Image.asset(
+              'assets/irwindalespeedwaylogo.png',
+              height: 80,
+            ),
+          ],
         ),
       ),
       body: Container(
