@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => LoadingScreen(), // Initial route
         '/home': (context) => HomeScreen(), // Home route
       },
+      debugShowCheckedModeBanner: false,
     );
   }
 }
