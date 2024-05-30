@@ -12,7 +12,7 @@
         "lat": -117.98608,
         "lon": 34.10891,
         "description": "Visit our ticket office to purchase or pick up your tickets. Our friendly staff can help answer any questions you may have about the event schedules.",
-        "img_link": "assets/map_images/Entrance.jpg"
+        "img_link": "assets/map_images/ticket_office.jpg"
     },
     {
         "name": "Irwindale Dragstrip",
@@ -47,14 +47,14 @@
         "lat" : -117.98385,
         "lon" : 34.10880,
         "description": "Conveniently located close to all the action, our parking lot provides ample space for your vehicle. Arrive early to secure a spot and enjoy a short walk to the main attractions.",
-        "img_link": "assets/map_images/Entrance.jpg"
+        "img_link": "assets/map_images/parkinglot.png"
     },
     {
         "name" : "Burnout Box",
         "lat" :  -117.98548,
         "lon" : 34.10894,
         "description" : "Feel the heat at the Burnout Box, where drivers prep their tires for the ultimate traction before hitting the strip. It's a must-see for those who love the spectacle of smoke and revving engines.",
-        "img_link": "assets/map_images/Entrance.jpg"
+        "img_link": "assets/map_images/burnoutbox.jpg"
     }
 
 ]
