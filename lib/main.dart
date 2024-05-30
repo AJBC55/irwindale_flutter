@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'maps.dart';
 import 'login.dart';
 import 'events.dart';
@@ -27,19 +28,20 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, // Number of tabs
+      length: 3, // Number of tabs
       child: Scaffold(
         body: TabBarView(
           children: [
             EventsScreen(),
-            MapView(),
+            MapView()
           ],
         ),
         bottomNavigationBar: Material(
           child: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.list), text: 'Events'),
-              Tab(icon: Icon(Icons.map_outlined), text: 'Map'),
+              Tab(icon: Icon(Icons.map_outlined), text: 'Map')
+              
             ],
           ),
         ),
