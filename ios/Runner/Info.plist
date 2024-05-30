@@ -27,7 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Requires location to show user location on the map.</string>
+	<string>We need your location to show you relevant data.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+<string>We need your location to show you relevant data.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
