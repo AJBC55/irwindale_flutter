@@ -1,7 +1,11 @@
-import 'package:platform_maps_flutter/platform_maps_flutter.dart';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:platform_maps_flutter/platform_maps_flutter.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:permission_handler/permission_handler.dart';
 
 const initialCameraPosition = CameraPosition(
   target: LatLng(34.109298, -117.986247),
@@ -9,6 +13,34 @@ const initialCameraPosition = CameraPosition(
   tilt: 40.0,
   bearing: 294.0,
 );
+
+Future<BitmapDescriptor> createCustomMarkerIcon() async {
+  final PictureRecorder pictureRecorder = PictureRecorder();
+  final Canvas canvas = Canvas(pictureRecorder);
+
+  // Load the image
+  final ByteData imageData = await rootBundle.load('assets/map_marker.png');
+  final Uint8List imageBytes = imageData.buffer.asUint8List();
+  final ui.Codec codec = await ui.instantiateImageCodec(imageBytes);
+  final ui.FrameInfo frameInfo = await codec.getNextFrame();
+  final ui.Image image = frameInfo.image;
+
+  // Draw the image onto the canvas
+  canvas.drawImage(image, Offset(0.0, 0.0), Paint());
+
+  // Convert canvas to image
+  final ui.Image markerAsImage = await pictureRecorder.endRecording().toImage(
+    image.width,
+    image.height,
+  );
+
+  final ByteData? byteData =
+      await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+  final Uint8List uint8List = byteData!.buffer.asUint8List();
+
+  return BitmapDescriptor.fromBytes(uint8List);
+}
+
 
 Future<List<Marker>> loadMarkers(
     void Function(Marker) zoomInOnMarker,
@@ -18,18 +50,23 @@ Future<List<Marker>> loadMarkers(
       await rootBundle.loadString('assets/irwindalelocations.json');
   final data = json.decode(response);
 
-  List<Marker> markers = List<Marker>.from(data.map((item) => Marker(
-        markerId: MarkerId(item['name']),
-        position: LatLng(item['lon'].toDouble(), item['lat'].toDouble()),
-        icon: BitmapDescriptor.defaultMarker,
-        onTap: () {
-          Marker marker = Marker(
-              markerId: MarkerId(item['name']),
-              position: LatLng(item['lat'].toDouble(), item['lon'].toDouble()));
-          zoomInOnMarker(marker);
-          showInfoBox(item, marker.position);
-        },
-      )));
+  List<Marker> markers = [];
+  for (var item in data) {
+    BitmapDescriptor customIcon = await createCustomMarkerIcon();
+    Marker marker = Marker(
+      markerId: MarkerId(item['name']),
+      position: LatLng(item['lon'].toDouble(), item['lat'].toDouble()),
+      icon: customIcon,
+      onTap: () {
+        Marker marker = Marker(
+            markerId: MarkerId(item['name']),
+            position: LatLng(item['lat'].toDouble(), item['lon'].toDouble()));
+        zoomInOnMarker(marker);
+        showInfoBox(item, marker.position);
+      },
+    );
+    markers.add(marker);
+  }
 
   return markers;
 }
@@ -43,15 +80,26 @@ class _MapViewState extends State<MapView> {
   PlatformMapController? mapController;
   Map<String, dynamic>? selectedData;
   LatLng? selectedPosition;
+  MapType _currentMapType = MapType.satellite;
 
   @override
   void initState() {
     super.initState();
+    requestLocationPermission();
     loadMarkers(zoomInOnMarker, showInfoBox, context).then((loadedMarkers) {
       setState(() {
         markers = loadedMarkers;
       });
     });
+  }
+
+  Future<void> requestLocationPermission() async {
+    PermissionStatus status = await Permission.locationWhenInUse.request();
+    if (status.isGranted) {
+      print("Location permission granted");
+    } else {
+      print("Location permission denied");
+    }
   }
 
   List<Marker> markers = [];
@@ -67,7 +115,7 @@ class _MapViewState extends State<MapView> {
                   onMapCreated: (controller) {
                     mapController = controller;
                   },
-                  mapType: MapType.satellite,
+                  mapType: _currentMapType,
                   markers: Set<Marker>.from(markers),
                   myLocationEnabled: true,
                 )
@@ -146,13 +194,36 @@ class _MapViewState extends State<MapView> {
           Positioned(
             top: 60,
             left: 20,
-            child: IconButton(
-                icon: const Icon(Icons.zoom_out_map_outlined, size: 40.0),
-                onPressed: () => resetCamera(),
-                color: const Color.fromARGB(255, 0, 0, 0),
-                tooltip: 'Reset Zoom'),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.zoom_out_map_outlined, size: 40.0),
+                    onPressed: () => resetCamera(),
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    tooltip: 'Reset Zoom',
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.map, size: 40.0),
+                    onPressed: () => toggleMapType(),
+                    color: const Color.fromARGB(255, 0, 0, 0),
+                    tooltip: 'Change Map Type',
+                  ),
+                ],
+              ),
+            ),
           ),
-          
         ],
       ),
     );
@@ -179,6 +250,14 @@ class _MapViewState extends State<MapView> {
     setState(() {
       selectedData = data;
       selectedPosition = position;
+    });
+  }
+
+  void toggleMapType() {
+    setState(() {
+      _currentMapType = _currentMapType == MapType.normal
+          ? MapType.satellite
+          : MapType.normal;
     });
   }
 }
