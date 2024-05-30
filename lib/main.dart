@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:irwindale_flutter/about.dart';
+
 import 'maps.dart';
 import 'login.dart';
 import 'events.dart';
@@ -33,16 +33,15 @@ class HomeScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             EventsScreen(),
-            MapView(),
-            AboutView()
+            MapView()
           ],
         ),
         bottomNavigationBar: Material(
           child: TabBar(
             tabs: [
               Tab(icon: Icon(Icons.list), text: 'Events'),
-              Tab(icon: Icon(Icons.map_outlined), text: 'Map'),
-              Tab(icon: Icon(Icons.bookmark_border_outlined), text: "About")
+              Tab(icon: Icon(Icons.map_outlined), text: 'Map')
+              
             ],
           ),
         ),
