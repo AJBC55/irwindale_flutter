@@ -121,8 +121,6 @@ class _MapViewState extends State<MapView> {
               child: Text('Decline'),
               onPressed: () {
                 Navigator.of(context).pop();
-              // Optionally, you could close the app if the user declines
-              // SystemNavigator.pop();
             },
           ),
         ],
