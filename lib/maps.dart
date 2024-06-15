@@ -6,6 +6,7 @@ import 'package:platform_maps_flutter/platform_maps_flutter.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:permission_handler/permission_handler.dart';
+import 'terms.dart';
 
 const initialCameraPosition = CameraPosition(
   target: LatLng(34.109298, -117.986247),
@@ -30,9 +31,9 @@ Future<BitmapDescriptor> createCustomMarkerIcon() async {
 
   // Convert canvas to image
   final ui.Image markerAsImage = await pictureRecorder.endRecording().toImage(
-    image.width,
-    image.height,
-  );
+        image.width,
+        image.height,
+      );
 
   final ByteData? byteData =
       await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
@@ -40,7 +41,6 @@ Future<BitmapDescriptor> createCustomMarkerIcon() async {
 
   return BitmapDescriptor.fromBytes(uint8List);
 }
-
 
 Future<List<Marker>> loadMarkers(
     void Function(Marker) zoomInOnMarker,
@@ -86,13 +86,50 @@ class _MapViewState extends State<MapView> {
   void initState() {
     super.initState();
     requestLocationPermission();
-    loadMarkers(zoomInOnMarker, showInfoBox, context).then((loadedMarkers) {
-      setState(() {
-        markers = loadedMarkers;
-      });
+    hasAcceptedTerms().then((accepted) {
+      if (accepted) {
+        loadMarkers(zoomInOnMarker, showInfoBox, context).then((loadedMarkers) {
+          setState(() {
+            markers = loadedMarkers;
+          });
+        });
+      } else {
+        showTermsDialog();
+      }
     });
   }
 
+  void showTermsDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Terms and Conditions'),
+          content: SingleChildScrollView(
+            child: Text('We use your location while you use the app for the purpose of locating you on the map to provide assistance and for providing location specific notifications. Your location is not stored after you close this app'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Accept'),
+              onPressed: () {
+                setAcceptedTerms();
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Decline'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              // Optionally, you could close the app if the user declines
+              // SystemNavigator.pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
   Future<void> requestLocationPermission() async {
     PermissionStatus status = await Permission.locationWhenInUse.request();
     if (status.isGranted) {
@@ -174,8 +211,8 @@ class _MapViewState extends State<MapView> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Container(
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: Colors.black, width: 3),
+                                border:
+                                    Border.all(color: Colors.black, width: 3),
                               ),
                               child: Image.asset(
                                 selectedData!['img_link'],
