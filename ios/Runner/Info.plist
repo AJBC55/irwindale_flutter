@@ -27,9 +27,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to show you relevant data.</string>
+	<string>We use your location while you use the app for the purpose of locating you on the map to provide assistance and for providing location specific notifications. Your location is not stored after you close this app.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to show you relevant data.</string>
+	<string>We use your location while you use the app for the purpose of locating you on the map to provide assistance and for providing location specific notifications. Your location is not stored after you close this app.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
